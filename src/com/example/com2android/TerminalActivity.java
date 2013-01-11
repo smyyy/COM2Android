@@ -52,7 +52,7 @@ public class TerminalActivity extends Activity {
 	private boolean updateCommandList = false;
 	private boolean isRunning = false;
 	private boolean isStarted = false;
-	Session session;
+	private Session session;
 	Channel channel;
 	String lastString = "";
 
