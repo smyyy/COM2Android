@@ -11,7 +11,13 @@ public class HelpClass {
 	static AlertDialog alert;
 
 	public HelpClass() {
+		
+		
 		// TODO Auto-generated constructor stub
+	}
+	
+	public void nicke(){
+
 	}
 	
 static void createAlert(String alertMsg, String yesMsg, String noMsg, final Context c){
