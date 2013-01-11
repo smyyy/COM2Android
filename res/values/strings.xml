@@ -1,0 +1,11 @@
+<resources>
+
+    <string name="app_name">COM2Android</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">COM2Android</string>
+    <string name="cliBtnText">CLI</string>
+    <string name="hubBtnText">HUB</string>
+    <string name="title_activity_cli">CLIActivity</string>
+
+</resources>

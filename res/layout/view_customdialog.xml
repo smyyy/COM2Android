@@ -1,0 +1,31 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:layout_gravity="center" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter one-time password"
+        android:textAppearance="?android:attr/textAppearanceLarge" 
+        android:gravity="center"
+        />
+    
+    <EditText
+        android:id="@+id/custom_password"
+        android:layout_width="200dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="sans-serif"
+        android:inputType="numberPassword"
+        android:textColor="#0f0"
+        android:gravity="center"
+        android:background="@drawable/roundedcorners"/>
+</LinearLayout>
+

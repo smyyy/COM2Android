@@ -1,0 +1,88 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:orientation="vertical"
+    android:background="#000000">
+  
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" >
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="300dp"
+            android:layout_height="80dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/com" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/imageView4"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="30dp"
+            android:paddingRight="10dp"
+            android:src="@drawable/ericssonwhitevert" />
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/cliUsernameText"
+        android:layout_width="296dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:background="@layout/border"
+        android:ems="10"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:hint="Ericsson signum"
+        android:inputType="text"
+        android:textColor="@color/white"
+        android:textCursorDrawable="@null"/>
+    
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="horizontal" 
+         android:layout_margin="10dp" >
+
+         <EditText
+             android:id="@+id/cliHostText"
+             android:layout_width="220dp"
+             android:layout_height="wrap_content"
+             android:background="@layout/border"
+             android:ems="10"
+             android:hint="username@host"
+             android:inputType="textEmailAddress|textNoSuggestions"
+             android:textColor="@color/white"
+             android:textCursorDrawable="@null" />
+
+         <EditText
+             android:id="@+id/cliPortText"
+             android:layout_width="66dp"
+             android:layout_height="wrap_content"
+             android:layout_weight="0.00"
+             android:ems="10"
+             android:hint="port"
+             android:text="22"
+             android:inputType="number"
+             android:background="@layout/border"
+             android:textColor="@color/white" 
+             android:layout_marginLeft="10dp"
+             android:textCursorDrawable="@null"/>
+     </LinearLayout>
+
+     <Button
+         android:id="@+id/button1"
+         android:layout_width="103dp"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="100dp"
+         android:onClick="startCliSession"
+         android:text="Connect" />
+
+</LinearLayout>
