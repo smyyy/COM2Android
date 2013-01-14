@@ -79,6 +79,20 @@
             android:textColor="#FFF"
             android:textSize="40dp" />
 
+        <Button
+            android:id="@+id/ncBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/redbtn"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:onClick="startNCActivity"
+            android:text="Netconf"
+            android:textColor="#FFF"
+            android:textSize="40dp" />
+
     </LinearLayout>
 
 </LinearLayout>

@@ -4,7 +4,9 @@ package com.example.com2android;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.JSch;
@@ -27,6 +29,7 @@ import android.view.View;
 import android.view.View.OnKeyListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -35,9 +38,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class TerminalActivity extends Activity {	
+public class NetconfActivity extends Activity {	
 
-	final String TAG = "Terminal";
+	final String TAG = "NC-Terminal";
 	final String TAB = Character.toString ((char) 9);
 	final int TERMINAL = 1;
 	final int COMMANDS = 2;
@@ -71,6 +74,8 @@ public class TerminalActivity extends Activity {
 
 	HistoryHandler historyHandler;
 
+	final NetconfMessages items[] = new NetconfMessages[3];
+	final List<NetconfMessages> items2 = new ArrayList<NetconfMessages>(); 
 
 	/*
 	 * TAB-funktionen
@@ -87,36 +92,8 @@ public class TerminalActivity extends Activity {
 		_port = intent.getIntExtra("port", 22);
 		_activity = intent.getIntExtra("activity", 0);
 
-
-			setContentView(R.layout.activity_terminal);
-
-			commandsList = new ArrayAdapter<String> (this,R.layout.commandlist);
-			commandsView = (ListView) findViewById(R.id.commandView);
-			commandsView.setAdapter(commandsList);
-			commandsView.setItemChecked(commandsList.getCount()-1, false);
-			commandsView.setOnItemClickListener(getCommandString);
-
-			historyList = new ArrayAdapter<String> (this,R.layout.commandlist);
-			historyView = (ListView) findViewById(R.id.historyView); 
-			historyView.setAdapter(historyList);
-			historyView.setItemChecked(historyList.getCount()-1, false);
-			historyView.setOnItemClickListener(getHistoryString);
-			
-			
-					//TODO: remove
-		commandsList.add("This is just some examples");
-		commandsList.add("ssh root@10.64.88.81 -p 22 -t -s cli");
-		commandsList.add("configure");
-		commandsList.add("ManagedElement=1");
-		commandsList.add("ct setview " + _username + "_com3.1_sv");
-		commandsList.add("com64");
-			
-				input = (EditText) findViewById(R.id.inputText);
-		input.setOnKeyListener(sendCommand);
-
-		Log.i(TAG, "created wwooo");	
-
-
+		setContentView(R.layout.activity_terminal_nc);
+		prepareList();
 
 		isStarted = true;
 
@@ -125,22 +102,10 @@ public class TerminalActivity extends Activity {
 		terminal.setFocusable(true);
 		terminal.setMovementMethod(new ScrollingMovementMethod());
 
-		//TODO: Fix history reading from file, in HistoryHandler.java
-		//		readHistoryFromFile();
-
-		if (_activity == 2){
-			TextView commandText = (TextView) findViewById(R.id.commandText);
-			commandText.setVisibility(8);
-			commandsView.setVisibility(8);
-		}
+		input = (EditText) findViewById(R.id.inputText);
+		input.setOnKeyListener(sendCommand);
 
 		Log.d("THIS", "host: " + _host + " _username: " + _username + " port: " + _port  );
-
-		//		for (String s : commandsHistory){
-		//			Log.d("startup", "this is a string from history: " + s);
-		//		}
-
-		showHistory();
 
 		if (!isRunning && isStarted){
 			setPassword("Enter password");
@@ -148,162 +113,52 @@ public class TerminalActivity extends Activity {
 		}
 	}
 
+
 	private void prepareList(){
 
-
 		Spinner s = (Spinner) findViewById(R.id.ncCommands);
+		//		s.setPrompt("hej hej");
 		//Prepar adapter 
 		//HERE YOU CAN ADD ITEMS WHICH COMES FROM SERVER.
-		final String items[] = new String[2];
-		items[0] = NetconfMessages.NC_HELLO;
-		items[1] = NetconfMessages.NC_GETCONFIG;
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_spinner_item, items);
+
+		items[0] = new NetconfMessages("Select one", "");
+		items[1] = new NetconfMessages("Hello", NetconfMessages.NC_HELLO);
+		items[2] = new NetconfMessages("Get-Config", NetconfMessages.NC_GETCONFIG);
+
+
+		ArrayAdapter<NetconfMessages> adapter = new ArrayAdapter<NetconfMessages>(this, android.R.layout.simple_spinner_item, items);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		s.setAdapter(adapter);
-		s.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			public void onItemSelected(AdapterView<?> parent, View view,
-					int position, long id) {
-				String d = items[position];
+		s.setOnItemSelectedListener(sendMessage);
 
-				sendCmd(d);
 
+	}
+
+
+	private OnItemSelectedListener sendMessage = new AdapterView.OnItemSelectedListener() {
+
+		@Override
+		public void onItemSelected(AdapterView<?> parent, View view,
+				int position, long id) {
+
+			if(position != 0){
+				NetconfMessages d = items[position];
+
+				//Get selected value of key 
+				String value = d.getValue();
+				String key = d.getSpinnerText();
+
+				sendCmd(d.getValue());
+				input.setText("Clicked: " + key + ": " + value);
 			}
-
-			public void onNothingSelected(AdapterView<?> parent) {
-			}
-		});
-	}
-
-	private void showHistory(){
-		LinkedList<String> ll = historyHandler.getWholeList();
-
-		for (String s : ll){
-			updateTerminal(s, HISTORY);
 		}
-	}
 
-	//	@Override
-	//	protected void onRestart() {
-	//		super.onRestart();  // Always call the superclass method first
-	//		Log.d(TAG, "Activity on Restart");
-	//		// Activity being restarted from stopped state    
-	//	}
-	//
-	//	@Override
-	//	protected void onDestroy() {
-	//
-	//		super.onDestroy();
-	//		Log.d(TAG, "Activity on Destory");
-	//		historyHandler.save(100);
-	//	}
-	//
-	//	@Override
-	//	protected void onStop() {
-	//
-	//		super.onStop();
-	//		Log.d(TAG, "Activity on Stop");
-	//		historyHandler.save(100);
-	//	}
-	//
-	//	@Override
-	//	protected void onPause() {
-	//
-	//		super.onPause();
-	//		Log.d(TAG, "Activity on Pause");
-	//		historyHandler.save(100);
-	//	}
-	//
-	//	@Override
-	//	protected void onResume() {
-	//		//		readHistoryFromFile();
-	//		super.onResume();
-	//	}
-
-	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
-		isStarted = false;
-		if (isRunning){
-			this.finish();
-			android.os.Process.killProcess(android.os.Process.myPid()) ;
+		@Override
+		public void onNothingSelected(AdapterView<?> arg0) {
+			// TODO Auto-generated method stub
+			input.setText("ETst");
 		}
-		//		historyHandler.save(100);		
-		//		this.finish();
-		//		
-	}
-
-
-	//	private void readHistoryFromFile(){
-	//		try {
-	//			FileInputStream fin = openFileInput("history.txt");
-	//			if (fin!=null) {
-	//				InputStreamReader tmp = new InputStreamReader(fin);
-	//				BufferedReader reader = new BufferedReader(tmp);
-	//				String s = reader.readLine();
-	//
-	//				String[] temp = s.split(",");
-	//				//				  String delimiter = ",";
-	//
-	//				for(int i =0; i < temp.length ; i++){
-	//					System.out.println("tempstr: " + temp[i]);
-	//					historyHandler.addStringToHistory(temp[i]);
-	//				}
-	//			}   		   
-	//		} catch (Exception e) {
-	//		}
-	//	}
-	//
-	//	private void writeHistoryArrayToFile(){
-	//		try {		
-	//			FileWriter writer = new FileWriter("history.txt"); 
-	//
-	//			for(String str: commandsHistory) {
-	//				writer.write(str + "\n");		
-	//			}
-	//			writer.close();
-	//		} catch (IOException e) {
-	//			// TODO Auto-generated catch block
-	//			e.printStackTrace();
-	//		}
-	//
-	//	}
-
-	//	private void createFile(int numberOfItems) {
-	//		try {
-	//			FileOutputStream fos = openFileOutput("history.txt", Context.MODE_PRIVATE);
-	//			LinkedList<String> list = historyHandler.getWholeList();
-	//
-	//			for (String s : list){
-	//				s += ",";
-	//				fos.write(s.getBytes());
-	//				Log.d("savefile", "Saving: " + s);
-	//			}
-	//			fos.close();
-	//			Log.d("savefile", "Allt är sparat...");
-	//		} catch (Exception e) {
-	//			Log.d("savefile", "Fel vid sparning");
-	//		}
-	//	}
-
-	//	private void writeHistoryArrayToFile() {
-	//
-	//		try {	
-	//			FileOutputStream fos = openFileOutput("history.txt", Context.MODE_PRIVATE);
-	//			for (String str : commandsHistory){
-	//				Log.d("FOS", "Writing to file");
-	//				str += "\n";
-	//				fos.write(str.getBytes());
-	//			}
-	//			fos.close();
-	//
-	//		} catch (Exception e) {
-	//
-	//		}
-	//	}
-
-
-
+	}; 
 
 	private OnItemClickListener getCommandString = new OnItemClickListener() {
 
@@ -314,30 +169,6 @@ public class TerminalActivity extends Activity {
 			input.setSelection(input.getText().length());
 		}
 	};
-
-	private OnItemClickListener getHistoryString = new OnItemClickListener() {
-
-		@Override
-		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-			String selectedItem = (String) historyView.getItemAtPosition(arg2);
-			input.setText(selectedItem + " ");
-			input.setSelection(input.getText().length());
-		}
-	};
-
-
-
-	private void printStringAsAscii(String str){
-		for ( int i = 0; i < str.length(); ++i ) {
-			char c = str.charAt( i );
-			int j = (int) c;
-			System.out.println(c + ": " + j);
-			Log.d("TAG", "meddelande");
-		}
-
-	}
-
-
 
 	int count = 1;
 	private OnKeyListener sendCommand = new OnKeyListener() {
@@ -376,13 +207,6 @@ public class TerminalActivity extends Activity {
 					}
 					return true;
 
-				case KeyEvent.KEYCODE_DPAD_UP:	
-					getHistory(true);	
-					return true;
-
-				case KeyEvent.KEYCODE_DPAD_DOWN:
-					getHistory(false);	
-					return true;
 				}
 			}
 			return false;
@@ -390,29 +214,29 @@ public class TerminalActivity extends Activity {
 	};
 
 
-
-
-	private void getHistory(boolean isUp){
-
-		Log.d("history", "index: " + historyHandler.getCurrentIndex()  + " will change.");
-		historyHandler.changeIndex(isUp);
-		int i1 = historyHandler.getCurrentIndex();
-
-		Log.d("history", "index is now: " + historyHandler.getCurrentIndex());
-
-		if (i1 != -1){
-			String historyCommand = historyHandler.getStringFromHistory(i1);
-			input.setText(historyCommand);
-			input.setSelection(input.getText().length());	
-			Log.d("history", "IF called: Found: " + historyCommand  + " On index:" + i1);
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		isStarted = false;
+		if (isRunning){
+			this.finish();
+			android.os.Process.killProcess(android.os.Process.myPid()) ;
 		}
-		else if (i1 == -1 && !isUp)
-			input.setText("");
-		input.setSelection(input.getText().length());
+		//		historyHandler.save(100);		
+		//		this.finish();
+		//		
 	}
 
 
 
+	private void printStringAsAscii(String str){
+		for ( int i = 0; i < str.length(); ++i ) {
+			char c = str.charAt( i );
+			int j = (int) c;
+			System.out.println(c + ": " + j);
+			Log.d("TAG", "meddelande");
+		}
+	}
 
 	public void updateTerminal(final String inputString, final int whereToUpdate){
 
@@ -453,31 +277,6 @@ public class TerminalActivity extends Activity {
 						terminal.scrollTo(0,0);
 
 					break;
-
-				case COMMANDS:
-					//					commandsList.clear();
-
-					//TODO: FIX APPENDLINE, not append TAB command...
-
-					if (appendNextLine){
-						commandsList.add(inputString);
-						Log.d(TAG, "Got TAB again, trying to update!");
-						commandsView.setSelection(commandsList.getCount()-1);
-					}
-					break;
-
-				case HISTORY:
-					if (appendNextLine){
-						historyList.add(inputString);
-
-						historyView.setSelection(historyList.getCount()-1);
-
-						//TODO: remove duplicasted populate.
-						System.out.println("ADDING LINE TO HISTORY!!: " + inputString);
-
-						historyHandler.addStringToHistory(inputString);
-						break;
-					}
 				default:
 					break;
 				}
@@ -559,13 +358,14 @@ public class TerminalActivity extends Activity {
 									//cli
 								case 1:
 									command = "ssh " + _host + " -p " + _port + " -t -s cli";
-
 									break;
 									//hub
 								case 2:
-
 									command = "ssh " + _host;
-
+									break;
+									//Netconf
+								case 3:
+									command = "ssh " + _host + " -p " + _port + " -t -s netconf";
 									break;
 
 								}
@@ -602,22 +402,6 @@ public class TerminalActivity extends Activity {
 		}).start();
 	}
 
-	//	public void updateCommandList(){
-	//		new Thread(new Runnable(){
-	//
-	//			@Override
-	//			public void run() {
-	//				while(true){
-	//					if (connectedToCli){
-	//						commandsList.clear();
-	//						excecuteCmd("\t");
-	//					}
-	//				}
-	//				
-	//			}
-	//			
-	//		});
-	//	}
 
 
 	public void sendCmd(final String command){
@@ -651,9 +435,6 @@ public class TerminalActivity extends Activity {
 		} 
 	}
 
-	private void updateCommands(){
-
-	}
 
 	//	public void excecuteCmd(String cmd){
 	//
@@ -707,8 +488,8 @@ public class TerminalActivity extends Activity {
 
 		helpBuilder.setTitle(null);
 
-		//		helpBuilder.setMessage(msgIn);
-		helpBuilder.setMessage(NC_HELLO);
+		helpBuilder.setMessage(msgIn);
+
 
 		final EditText input = new EditText(this);
 		input.setSingleLine();

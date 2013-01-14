@@ -21,6 +21,7 @@ public class MainActivity extends Activity {
 	
 	final int CLI = 1;
 	final int HUB = 2;
+	final int NC = 3;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,7 @@ public class MainActivity extends Activity {
     
     public void startCliActivity(View v){
     	Toast.makeText(this, "Clicked: " + ++i + " times.", Toast.LENGTH_SHORT).show();
-    	Intent intent = new Intent(MainActivity.this, CLIActivity.class);
+    	Intent intent = new Intent(MainActivity.this, LoginActivity.class);
     	intent.putExtra("activity", CLI);
     	startActivity(intent);
     	
@@ -63,10 +64,16 @@ public class MainActivity extends Activity {
     }
     
     public void startHubActivity(View v){
-    	Intent intent = new Intent(MainActivity.this, CLIActivity.class);
+    	Intent intent = new Intent(MainActivity.this, LoginActivity.class);
     	intent.putExtra("activity", HUB);
     	startActivity(intent); 
     	
+    }
+    
+    public void startNCActivity(View v){
+    	Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+    	intent.putExtra("activity", NC);
+    	startActivity(intent); 
     }
    
 }

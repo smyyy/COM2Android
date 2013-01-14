@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class CLIActivity extends Activity {	
+public class LoginActivity extends Activity {	
 
 	EditText usernameField;
 	EditText hostField;
@@ -16,12 +16,13 @@ public class CLIActivity extends Activity {
 
 	final int CLI = 1;
 	final int HUB = 2;
+	final int NC = 3;
 	int activity;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_cli);
+		setContentView(R.layout.activity_login);
 
 		usernameField = (EditText) findViewById(R.id.cliUsernameText);
 		usernameField.setFocusable(true);
@@ -44,21 +45,32 @@ public class CLIActivity extends Activity {
 	}
 
 
-	public void startCliSession(View v){
-		Intent terminal = new Intent(this, TerminalActivity.class);
+	public void startTerminalSession(View v){
+		Intent terminal = null;
 
 		//TODO: remove
 		switch (activity){
 		case 0:
+			terminal = new Intent(this, TerminalActivity.class);
 			Toast.makeText(this,"Something is wrong...", Toast.LENGTH_SHORT).show();
 			break;
 		case CLI:
+			terminal = new Intent(this, TerminalActivity.class);
 			hostField.setText("root@10.64.88.85");
 			usernameField.setText("emiklil");
 			break;
 		case HUB:
+			terminal = new Intent(this, TerminalActivity.class);
 			hostField.setText("emiklil@147.214.14.34");
 			usernameField.setText("emiklil");
+			break;
+		case NC:
+			terminal = new Intent(this, NetconfActivity.class);
+			hostField.setText("root@10.64.88.85");
+			usernameField.setText("emiklil");
+			break;
+		default:
+			terminal = new Intent(this, TerminalActivity.class);
 			break;
 		}
 

@@ -1,0 +1,94 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_weight="2" >
+
+        <ImageView
+            android:id="@+id/comLoggo"
+            android:layout_width="300dp"
+            android:layout_height="80dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/com" />
+
+        <ImageView
+            android:id="@+id/ericssonLoggo"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/imageView4"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="30dp"
+            android:paddingRight="10dp"
+            android:src="@drawable/ericssonwhitevert" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="40" >
+
+        <TextView
+            android:id="@+id/terminalView"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.80"
+            android:background="@layout/border"
+            android:maxLines="38"
+            android:scrollbars="vertical"
+            android:text="Hej!"
+            android:textColor="@color/green" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/commandText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Commands:"
+                android:textColor="#fff" />
+
+            <Spinner
+                android:id="@+id/ncCommands"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#f00"
+           />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    
+        <EditText
+        android:id="@+id/inputText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        android:background="@layout/border"
+        android:ems="10"
+        android:hint="Inputtext here"
+        android:singleLine="true"
+        android:textCursorDrawable="@null"
+        android:textColor="@color/green" />
+
+    <requestFocus />
+
+</LinearLayout>
