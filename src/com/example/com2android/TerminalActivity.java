@@ -148,33 +148,6 @@ public class TerminalActivity extends Activity {
 		}
 	}
 
-	private void prepareList(){
-
-
-		Spinner s = (Spinner) findViewById(R.id.ncCommands);
-		//Prepar adapter 
-		//HERE YOU CAN ADD ITEMS WHICH COMES FROM SERVER.
-		final String items[] = new String[2];
-		items[0] = NetconfMessages.NC_HELLO;
-		items[1] = NetconfMessages.NC_GETCONFIG;
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_spinner_item, items);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		s.setAdapter(adapter);
-		s.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			public void onItemSelected(AdapterView<?> parent, View view,
-					int position, long id) {
-				String d = items[position];
-
-				sendCmd(d);
-
-			}
-
-			public void onNothingSelected(AdapterView<?> parent) {
-			}
-		});
-	}
-
 	private void showHistory(){
 		LinkedList<String> ll = historyHandler.getWholeList();
 
@@ -707,8 +680,8 @@ public class TerminalActivity extends Activity {
 
 		helpBuilder.setTitle(null);
 
-		//		helpBuilder.setMessage(msgIn);
-		helpBuilder.setMessage(NC_HELLO);
+		helpBuilder.setMessage(msgIn);
+
 
 		final EditText input = new EditText(this);
 		input.setSingleLine();

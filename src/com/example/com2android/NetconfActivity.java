@@ -14,6 +14,7 @@ import com.jcraft.jsch.Session;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -30,7 +31,9 @@ import android.view.View.OnKeyListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.AdapterViewFlipper;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -60,9 +63,6 @@ public class NetconfActivity extends Activity {
 	Channel channel;
 	String lastString = "";
 
-	String NC_HELLO = NetconfMessages.NC_GETCONFIG;
-
-
 	TextView terminal;
 	EditText input;
 
@@ -75,7 +75,6 @@ public class NetconfActivity extends Activity {
 	HistoryHandler historyHandler;
 
 	final NetconfMessages items[] = new NetconfMessages[3];
-	final List<NetconfMessages> items2 = new ArrayList<NetconfMessages>(); 
 
 	/*
 	 * TAB-funktionen
@@ -104,6 +103,8 @@ public class NetconfActivity extends Activity {
 
 		input = (EditText) findViewById(R.id.inputText);
 		input.setOnKeyListener(sendCommand);
+		input.setFocusable(true);
+		input.setFocusableInTouchMode(true);
 
 		Log.d("THIS", "host: " + _host + " _username: " + _username + " port: " + _port  );
 
@@ -116,7 +117,7 @@ public class NetconfActivity extends Activity {
 
 	private void prepareList(){
 
-		Spinner s = (Spinner) findViewById(R.id.ncCommands);
+		Spinner spinner = (Spinner) findViewById(R.id.ncCommands);
 		//		s.setPrompt("hej hej");
 		//Prepar adapter 
 		//HERE YOU CAN ADD ITEMS WHICH COMES FROM SERVER.
@@ -127,12 +128,35 @@ public class NetconfActivity extends Activity {
 
 
 		ArrayAdapter<NetconfMessages> adapter = new ArrayAdapter<NetconfMessages>(this, android.R.layout.simple_spinner_item, items);
+		ArrayAdapter<NetconfMessages> adapter2 = new ArrayAdapter<NetconfMessages>(this, android.R.layout.simple_spinner_item, items);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		s.setAdapter(adapter);
-		s.setOnItemSelectedListener(sendMessage);
+		
+        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.sendMsgFilter);
+        textView.setAdapter(adapter2);
+        textView.setOnItemSelectedListener(sendMessage2);
+        
+        spinner.setAdapter(adapter);
+		spinner.setOnItemSelectedListener(sendMessage);
+
 
 
 	}
+	
+	private OnItemSelectedListener sendMessage2 = new AdapterView.OnItemSelectedListener() {
+
+		@Override
+		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
+				long arg3) {
+			NetconfMessages d = items[arg2];
+			input.setText(d.getValue());
+		}
+
+		@Override
+		public void onNothingSelected(AdapterView<?> arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+	};
 
 
 	private OnItemSelectedListener sendMessage = new AdapterView.OnItemSelectedListener() {
@@ -149,7 +173,6 @@ public class NetconfActivity extends Activity {
 				String key = d.getSpinnerText();
 
 				sendCmd(d.getValue());
-				input.setText("Clicked: " + key + ": " + value);
 			}
 		}
 
@@ -238,6 +261,7 @@ public class NetconfActivity extends Activity {
 		}
 	}
 
+	
 	public void updateTerminal(final String inputString, final int whereToUpdate){
 
 		Handler refresh = new Handler(Looper.getMainLooper());

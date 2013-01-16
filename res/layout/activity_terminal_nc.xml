@@ -55,7 +55,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.2"
-            android:orientation="vertical" >
+            android:orientation="vertical" 
+            android:layout_marginRight="10dp">
 
             <TextView
                 android:id="@+id/commandText"
@@ -68,14 +69,24 @@
                 android:id="@+id/ncCommands"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#f00"
-           />
+                android:background="#f00"/>
+
+            <AutoCompleteTextView
+                android:id="@+id/sendMsgFilter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Type a message"
+                android:singleLine="true"
+                android:textColor="#fff" 
+                android:layout_marginTop="50dp"
+                android:background="@layout/border"
+                android:textCursorDrawable="@null"/>
 
         </LinearLayout>
+
     </LinearLayout>
 
-    
-        <EditText
+  <EditText
         android:id="@+id/inputText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -86,8 +97,11 @@
         android:ems="10"
         android:hint="Inputtext here"
         android:singleLine="true"
+        android:textColor="@color/green"
         android:textCursorDrawable="@null"
-        android:textColor="@color/green" />
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+
 
     <requestFocus />
 

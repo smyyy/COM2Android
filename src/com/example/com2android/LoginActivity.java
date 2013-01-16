@@ -56,18 +56,24 @@ public class LoginActivity extends Activity {
 			break;
 		case CLI:
 			terminal = new Intent(this, TerminalActivity.class);
-			hostField.setText("root@10.64.88.85");
-			usernameField.setText("emiklil");
+			if (hostField.getText().toString().equals(""))
+				hostField.setText("root@10.64.88.85");
+			if (usernameField.getText().toString().equals(""))
+				usernameField.setText("emiklil");			
 			break;
 		case HUB:
 			terminal = new Intent(this, TerminalActivity.class);
-			hostField.setText("emiklil@147.214.14.34");
-			usernameField.setText("emiklil");
+			if (hostField.getText().toString().equals(""))
+				hostField.setText("emiklil@147.214.14.34");
+			if (usernameField.getText().toString().equals(""))
+				usernameField.setText("emiklil");
 			break;
 		case NC:
 			terminal = new Intent(this, NetconfActivity.class);
-			hostField.setText("root@10.64.88.85");
-			usernameField.setText("emiklil");
+			if (hostField.getText().toString().equals(""))
+				hostField.setText("root@10.64.88.85");
+			if (usernameField.getText().toString().equals(""))
+				usernameField.setText("emiklil");
 			break;
 		default:
 			terminal = new Intent(this, TerminalActivity.class);
