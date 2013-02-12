@@ -697,7 +697,7 @@ public class TerminalActivity extends Activity {
 
 		input.setHeight(40);
 
-		input.setBackground(getResources().getDrawable(R.drawable.roundedcorners));
+		input.setBackgroundResource(R.drawable.roundedcorners);
 
 		helpBuilder.setView(input);
 		helpBuilder.setPositiveButton("OK",
