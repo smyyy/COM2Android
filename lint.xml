@@ -4,4 +4,7 @@
     <issue id="ParserError">
         <ignore path="src\com\example\com2android\TerminalActivity.java" />
     </issue>
+    <issue id="WrongCall">
+        <ignore path="src\com\example\draganddrop\OurView.java" />
+    </issue>
 </lint>
