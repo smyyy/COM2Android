@@ -35,7 +35,7 @@ public class OurView extends SurfaceView implements Runnable {
 	private long lastClick;
 	private List<Sprite> sprites = new ArrayList<Sprite>();
 	Bitmap ball, blob;
-	float x = 200, y = 200;
+	float x = 0, y = 0;
 
 	final int LONG_PRESS_TIME = 1000; //1 sec
 	Timer longPressTimer = new Timer();
@@ -62,16 +62,18 @@ public class OurView extends SurfaceView implements Runnable {
 	}
 
 	private void init(){
+		
+
 		isItOK = true;
 		t = new Thread(this);
 		t.start();
 
 		holder = getHolder();
-		blob = BitmapFactory.decodeResource(getResources(), R.drawable.sprite2);
+		blob = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
 
-		sprite = new Sprite(this, blob, 100);
+		sprite = new Sprite(this, blob, 100, 100, "name=1");
 		sprites.add(sprite);
-		sprite2 = new Sprite(this, blob, 200);
+		sprite2 = new Sprite(this, blob, 200, 200, "name=1");
 		sprites.add(sprite2);
 
 
@@ -132,15 +134,15 @@ public class OurView extends SurfaceView implements Runnable {
 		//		sprite.onDraw(c);
 		//		sprite2.onDraw(c);
 		//		
-		if (spriteLoaded){
-			try {
-				Thread.sleep(50);
-				spriteLoaded = false;
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+//		if (spriteLoaded){
+//			try {
+//				Thread.sleep(50);
+//				spriteLoaded = false;
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
 
 		for (Sprite spr : sprites){
 			spr.onDraw(c);
@@ -195,128 +197,214 @@ public class OurView extends SurfaceView implements Runnable {
 		longpressListener = listener;
 	}
 
-
-
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-
-		switch(event.getAction()){
-		//		case MotionEvent.ACTION_DOWN:
-		//			
-		//			if (System.currentTimeMillis() - lastClick > 500) {
-		//				lastClick = System.currentTimeMillis();
-		//				synchronized (getHolder()) {
-		//					for (int i = sprites.size() - 1; i >= 0; i--) {
-		//						final Sprite clickedSprite = sprites.get(i);
-		//						if (clickedSprite.isCollition(event.getX(), event.getY())) {
-		//					
-		//							System.out.println("ACTION DOWN");
-		//							clickedSprite.setSpeed();
-		//
-		//							final int xCord = (int) event.getX();
-		//							final int yCord = (int) event.getY();
-		//
-		//							longpressTimerIsActive = true;
-		//							
-		////							longPressTimer.schedule(new TimerTask(){
-		////								@Override
-		////								public void run() {
-		////									
-		////									longpressListener.onLongpress(OurView.this, xCord, yCord);
-		////								}
-		////
-		////							}, LONG_PRESS_TIME);
-		//
-		//							break;
-		//						}
-		//					}
-		//				}
-		//			}
-		//			else{
-		//				lastClick = System.currentTimeMillis();
-		//				synchronized (getHolder()) {
-		//					for (int i = sprites.size() - 1; i >= 0; i--) {
-		//						Sprite clickedSprite = sprites.get(i);
-		//						if (clickedSprite.isCollition(event.getX(), event.getY())) {
-		//							//							sprites.remove(sprite);
-		//							System.out.println("ACTION DELETE");
-		//							removeSprite(clickedSprite);
-		//
-		//							break;
-		//						}
-		//					}
-		//				}
-		//			}
-		//
-		//
-		//			break;
-				case MotionEvent.ACTION_UP:
-					//			if (System.currentTimeMillis() - lastClick > 500) {
-					//				lastClick = System.currentTimeMillis();
-					//				synchronized (getHolder()) {
-					//					for (int i = sprites.size() - 1; i >= 0; i--) {
-					//						Sprite clickedSprite = sprites.get(i);
-					//						if (clickedSprite.isCollition(event.getX(), event.getY())) {
-					//							//							sprites.remove(sprite);
-					System.out.println("ACTION UP");
-					if(longpressTimerIsActive){
-		//				longPressTimer.cancel();
-					}
-					longpressTimerIsActive = false;
-		
-					//							clickedSprite.setSpeed();
-					//							break;
-					//						}
-					//					}
-					//				}
-					//			}
-					break;
-					
-		case MotionEvent.ACTION_MOVE:
-
-			//			lastClick = System.currentTimeMillis();
-			synchronized (getHolder()) {
-				for (Sprite spr : sprites){
-					if (spr.isCollition(event.getX(), event.getY())){
-						System.out.println("ACTION MOVE");
-						
-						spr.moveSpite((int) event.getX(), (int) event.getY());
-						
-						
-						
-						break;
-					}
-				}
-				
-				
-//				
-//				for (int i = sprites.size() - 1; i >= 0; i--) {
-//					Sprite clickedSprite = sprites.get(i);
-//					if (clickedSprite.isCollition(event.getX(), event.getY())) {
-//
-//						int moveX = (int) event.getX();
-//						int moveY = (int) event.getY();
-//
-//
-//						
-//						Canvas c = holder.lockCanvas();
-//						clickedSprite.moveSpite(moveX, moveY);
-//						draw(c);
-//						holder.unlockCanvasAndPost(c);
-//
-//						break;
-//					}
-//				}
+	
+	
+	private Sprite getClickedSprite(float x, float y){
+		for (Sprite spr : sprites){
+			if (spr.isCollition(x, y)){
+				return spr;
 			}
-			break;
-
-
 		}
-
-
-
-		return true;
+		return null;
 	}
+	
+	
+  @Override
+  public boolean onTouchEvent(MotionEvent event) {
+      int x = (int)event.getX();
+      int y = (int)event.getY();
+      switch (event.getAction()) {
+          case MotionEvent.ACTION_DOWN:
+        	  
+        	  
+      					if (System.currentTimeMillis() - lastClick > 500) {
+      						lastClick = System.currentTimeMillis();
+//      						synchronized (getHolder()) {
+//      							for (int i = sprites.size() - 1; i >= 0; i--) {
+//      								final Sprite clickedSprite = sprites.get(i);
+//      								if (clickedSprite.isCollition(event.getX(), event.getY())) {
+//      							
+//      									System.out.println("ACTION DOWN");
+//      									clickedSprite.setSpeed();
+//      		
+//      									final int xCord = (int) event.getX();
+//      									final int yCord = (int) event.getY();
+//      		
+//      									longpressTimerIsActive = true;
+//      									
+//      		//							longPressTimer.schedule(new TimerTask(){
+//      		//								@Override
+//      		//								public void run() {
+//      		//									
+//      		//									longpressListener.onLongpress(OurView.this, xCord, yCord);
+//      		//								}
+//      		//
+//      		//							}, LONG_PRESS_TIME);
+//      		
+//      									break;
+//      								}
+//      							}
+//      						}
+      					}
+      					else{
+      						lastClick = System.currentTimeMillis();
+      						synchronized (getHolder()) {
+      							
+      							Sprite s = getClickedSprite(event.getX(), event.getY());
+      							
+      							if (s != null)
+      								removeSprite(s);
+
+      						}
+      					}
+        	  
+        	  
+        	  
+        	  
+          case MotionEvent.ACTION_MOVE:
+          case MotionEvent.ACTION_UP:
+      }
+      
+  	Sprite s = getClickedSprite(x, y);
+  	if (s != null)
+  		s.paintComponent(x, y);
+  	invalidate();
+     
+  return true;
+  }
+	
+
+//	@Override
+//	public boolean onTouchEvent(MotionEvent event) {
+//
+//		switch(event.getAction()){
+//		//		case MotionEvent.ACTION_DOWN:
+//		//			
+//		//			if (System.currentTimeMillis() - lastClick > 500) {
+//		//				lastClick = System.currentTimeMillis();
+//		//				synchronized (getHolder()) {
+//		//					for (int i = sprites.size() - 1; i >= 0; i--) {
+//		//						final Sprite clickedSprite = sprites.get(i);
+//		//						if (clickedSprite.isCollition(event.getX(), event.getY())) {
+//		//					
+//		//							System.out.println("ACTION DOWN");
+//		//							clickedSprite.setSpeed();
+//		//
+//		//							final int xCord = (int) event.getX();
+//		//							final int yCord = (int) event.getY();
+//		//
+//		//							longpressTimerIsActive = true;
+//		//							
+//		////							longPressTimer.schedule(new TimerTask(){
+//		////								@Override
+//		////								public void run() {
+//		////									
+//		////									longpressListener.onLongpress(OurView.this, xCord, yCord);
+//		////								}
+//		////
+//		////							}, LONG_PRESS_TIME);
+//		//
+//		//							break;
+//		//						}
+//		//					}
+//		//				}
+//		//			}
+//		//			else{
+//		//				lastClick = System.currentTimeMillis();
+//		//				synchronized (getHolder()) {
+//		//					for (int i = sprites.size() - 1; i >= 0; i--) {
+//		//						Sprite clickedSprite = sprites.get(i);
+//		//						if (clickedSprite.isCollition(event.getX(), event.getY())) {
+//		//							//							sprites.remove(sprite);
+//		//							System.out.println("ACTION DELETE");
+//		//							removeSprite(clickedSprite);
+//		//
+//		//							break;
+//		//						}
+//		//					}
+//		//				}
+//		//			}
+//		//
+//		//
+//		//			break;
+//		
+//		case MotionEvent.ACTION_DOWN:
+//			Sprite s = getClickedSprite(event.getX(),event.getY());
+//			
+//			removeSprite(s);
+//			
+//			break;
+//		case MotionEvent.ACTION_UP:
+//			//			if (System.currentTimeMillis() - lastClick > 500) {
+//			//				lastClick = System.currentTimeMillis();
+//			//				synchronized (getHolder()) {
+//			//					for (int i = sprites.size() - 1; i >= 0; i--) {
+//			//						Sprite clickedSprite = sprites.get(i);
+//			//						if (clickedSprite.isCollition(event.getX(), event.getY())) {
+//			//							//							sprites.remove(sprite);
+//			System.out.println("ACTION UP: x:" + (int)event.getX() + " y:" + (int)event.getY());
+//			if(longpressTimerIsActive){
+//				//				longPressTimer.cancel();
+//			}
+//			longpressTimerIsActive = false;
+//
+//			//							clickedSprite.setSpeed();
+//			//							break;
+//			//						}
+//			//					}
+//			//				}
+//			//			}
+//			break;
+//
+//		case MotionEvent.ACTION_MOVE:
+//
+//
+//
+//			//			lastClick = System.currentTimeMillis();
+//			//			synchronized (getHolder()) {
+//			Sprite movingSprite = null;
+//			for (Sprite spr : sprites){
+//				if (spr.isCollition(event.getX(), event.getY())){
+//					System.out.println("ACTION MOVE: x:" + (int)event.getX() + " y:" + (int)event.getY());
+//
+//
+//
+//				spr.paintComponent((int) event.getX(), (int) event.getY());
+//
+//					break;
+//				}
+//			}
+//
+//			
+//			//				
+//			//				for (int i = sprites.size() - 1; i >= 0; i--) {
+//			//					Sprite clickedSprite = sprites.get(i);
+//			//					if (clickedSprite.isCollition(event.getX(), event.getY())) {
+//			//
+//			//						int moveX = (int) event.getX();
+//			//						int moveY = (int) event.getY();
+//			//
+//			//
+//			//						
+//			//						Canvas c = holder.lockCanvas();
+//			//						clickedSprite.moveSpite(moveX, moveY);
+//			//						draw(c);
+//			//						holder.unlockCanvasAndPost(c);
+//			//
+//			//						break;
+//			//					}
+//			//				}
+//			//			}
+//
+//			break;
+//
+//
+//		}
+//
+//
+//
+//		return true;
+//	}
 
 
 	public void pause(){

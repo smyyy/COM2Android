@@ -48,7 +48,7 @@ public class DragActivity extends Activity{
 		ll.addView(ov);
 		//		ov = (OurView) findViewById(R.id.ourView1);
 
-		blob = BitmapFactory.decodeResource(getResources(), R.drawable.sprite2);
+		blob = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
 		//		v.resume();
 
 		ov.setOnLongpressListener(new OurView.OnLongpressListener() {
@@ -125,8 +125,9 @@ public class DragActivity extends Activity{
 	public synchronized void addNewMo(View v){
 		//		Sprite s = new Sprite(ov, blob, 100);
 		Random rand = new Random();
-		int where = rand.nextInt(500-1)+1;
-		ov.addSprite(new Sprite(ov, blob, where));
+		int whereX = rand.nextInt(500-1)+1;
+		int whereY = rand.nextInt(500-1)+1;
+		ov.addSprite(new Sprite(ov, blob, whereX,whereY,"name=1"));		
 	}
 
 	//
