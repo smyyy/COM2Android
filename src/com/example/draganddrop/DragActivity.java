@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Random;
 
 import com.example.com2android.R;
-import com.example.com2android.R.layout;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -39,8 +38,8 @@ public class DragActivity extends Activity{
 		//		v.setOnTouchListener(this);
 		//		ball = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
 
-		 setContentView(R.layout.activity_drag);
-		
+		setContentView(R.layout.activity_drag);
+
 		ov  = new OurView(this);
 
 		LinearLayout ll = (LinearLayout) findViewById(R.id.view1);
@@ -52,14 +51,21 @@ public class DragActivity extends Activity{
 		//		v.resume();
 
 		ov.setOnLongpressListener(new OurView.OnLongpressListener() {
-			
+
 			public void onLongpress(final OurView view, final int xCord, final int yCord) {
 				runOnUiThread(new Runnable() {
 					public void run() {
-						Toast.makeText(getApplicationContext(), "LONG PRESSED at: x:" + xCord + " y:" + yCord , Toast.LENGTH_SHORT).show();
-//						showPopupMenu(ov, xCord, yCord);
-						registerForContextMenu(ov);
-						openContextMenu(ov);
+
+						if (ov.longpressTimerIsActive){
+							Toast.makeText(getApplicationContext(), "LONG PRESSED at: x:" + xCord + " y:" + yCord , Toast.LENGTH_SHORT).show();
+							//						showPopupMenu(ov, xCord, yCord);
+							registerForContextMenu(ov);
+							openContextMenu(ov);
+							ov.longpressTimerIsActive = false;
+
+						}
+
+
 					}
 				});
 
@@ -68,45 +74,45 @@ public class DragActivity extends Activity{
 
 	}
 
-//	private void showPopupMenu(View v, int x, int y){
-//		   PopupMenu popupMenu = new PopupMenu(this, v);
-//		      popupMenu.getMenuInflater().inflate(R.menu.popupmenu, popupMenu.getMenu());
-//		    
-//		      popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-//		   
-//		@Override
-//		public boolean onMenuItemClick(MenuItem item) {
-//			// TODO Auto-generated method stub
-//		    Toast.makeText(MainActivity.this,
-//				      item.toString(),
-//				      Toast.LENGTH_LONG).show();
-//			return false;
-//		}
-//		  });
-//		    
-//		      popupMenu.show();
-//		  }
-//	
-	
-	 /** This will be invoked when an item in the listview is long pressed */
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-//        getMenuInflater().inflate(R.menu.popupmenu, menu);
-    }
- 
-    /** This will be invoked when a menu item is selected */
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
- 
-        AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
- 
-	    Toast.makeText(DragActivity.this,
-	      item.toString(),
-	      Toast.LENGTH_LONG).show();
-        return true;
-    }
-	
+	//	private void showPopupMenu(View v, int x, int y){
+	//		   PopupMenu popupMenu = new PopupMenu(this, v);
+	//		      popupMenu.getMenuInflater().inflate(R.menu.popupmenu, popupMenu.getMenu());
+	//		    
+	//		      popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+	//		   
+	//		@Override
+	//		public boolean onMenuItemClick(MenuItem item) {
+	//			// TODO Auto-generated method stub
+	//		    Toast.makeText(MainActivity.this,
+	//				      item.toString(),
+	//				      Toast.LENGTH_LONG).show();
+	//			return false;
+	//		}
+	//		  });
+	//		    
+	//		      popupMenu.show();
+	//		  }
+	//	
+
+	/** This will be invoked when an item in the listview is long pressed */
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		getMenuInflater().inflate(R.menu.popupmenu, menu);
+	}
+
+	/** This will be invoked when a menu item is selected */
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+
+		Toast.makeText(DragActivity.this,
+				item.toString(),
+				Toast.LENGTH_LONG).show();
+		return true;
+	}
+
 
 	@Override
 	protected void onPause() {
@@ -128,6 +134,14 @@ public class DragActivity extends Activity{
 		int whereX = rand.nextInt(500-1)+1;
 		int whereY = rand.nextInt(500-1)+1;
 		ov.addSprite(new Sprite(ov, blob, whereX,whereY,"name=1"));		
+	}
+	
+	public synchronized void addNewMoChild(View v){
+		//		Sprite s = new Sprite(ov, blob, 100);
+		Random rand = new Random();
+		int whereX = rand.nextInt(500-1)+1;
+		int whereY = rand.nextInt(500-1)+1;
+		ov.addSprite(new Sprite(ov, BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_blue), whereX,whereY,"name=1",true));		
 	}
 
 	//

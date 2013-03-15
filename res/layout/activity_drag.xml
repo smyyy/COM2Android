@@ -33,6 +33,12 @@
             android:layout_height="50px"
             android:onClick="addNewMo"
             android:text="Add 'MO'" />
+                <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="50px"
+            android:onClick="addNewMoChild"
+            android:text="Add 'CHILD'" />
     </LinearLayout>
 
 </LinearLayout>
