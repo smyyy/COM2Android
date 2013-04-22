@@ -2,29 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="horizontal"
-     >
-      
-     <LinearLayout
-         android:id="@+id/view1"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:id="@+id/view1"
         android:layout_width="0dip"
         android:layout_height="match_parent"
         android:layout_weight="1.3"
         android:background="#F00" >
-        </LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dip"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.3"
+        android:layout_height="569dp"
+        android:layout_weight="0.30"
         android:gravity="center"
         android:orientation="vertical" >
 
         <ListView
             android:id="@+id/listView1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#f00" >
+            android:layout_width="176dp"
+            android:layout_height="50dp"
+            android:layout_weight="1.57"
+            android:background="#f00"
+            android:layout_marginTop="10dp" >
         </ListView>
 
         <Button
@@ -32,13 +33,44 @@
             android:layout_width="wrap_content"
             android:layout_height="50px"
             android:onClick="addNewMo"
-            android:text="Add 'MO'" />
-                <Button
+            android:text="Add &apos;MO&apos;" />
+
+        <Button
             android:id="@+id/button2"
             android:layout_width="wrap_content"
             android:layout_height="50px"
             android:onClick="addNewMoChild"
-            android:text="Add 'CHILD'" />
+            android:text="Add &apos;CHILD&apos;" />
+
+        <EditText
+            android:id="@+id/moTextField1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:editable="false"
+            android:gravity="center"
+            android:hint="MO 1"
+            android:layout_marginTop="100dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"/>
+
+        <EditText
+            android:id="@+id/moTextField2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:editable="false"
+            android:gravity="center"
+            android:hint="MO 2"
+             android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp" />
+
+        <Button
+            android:id="@+id/connectBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="50px"
+            android:layout_gravity="bottom|center"
+            android:onClick="connectMo"
+            android:text="CONNECT MO&apos;s" />
     </LinearLayout>
 
 </LinearLayout>

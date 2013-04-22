@@ -23,6 +23,9 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 //public class OurView extends SurfaceView{
 public class OurView extends SurfaceView implements Runnable {
@@ -34,6 +37,7 @@ public class OurView extends SurfaceView implements Runnable {
 	boolean spriteLoaded = false;
 	private long lastClick;
 	private List<Sprite> sprites = new ArrayList<Sprite>();
+	private List<Line> lines = new ArrayList<Line>();
 	Bitmap ball, blob;
 	float x = 0, y = 0;
 
@@ -46,6 +50,9 @@ public class OurView extends SurfaceView implements Runnable {
 	Sprite coll2;
 	Sprite lastColl1 = null;
 	Sprite lastColl2 = null;
+	
+	EditText mo1TV;
+	EditText mo2TV;
 
 	//	final Handler _handler = new Handler(); 
 	//	Runnable _longPressed = new Runnable() { 
@@ -76,11 +83,14 @@ public class OurView extends SurfaceView implements Runnable {
 		holder = getHolder();
 		blob = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
 
+		mo1TV = (EditText) findViewById(R.id.moTextField1);
+		mo2TV = (EditText) findViewById(R.id.moTextField2);
+		
 		sprite = new Sprite(this, blob, 100, 100, "name=1");
 		sprites.add(sprite);
 		sprite2 = new Sprite(this, blob, 200, 200, "name=1");
 		sprites.add(sprite2);
-		
+
 		addSprite(new Sprite(this, BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_blue), 200, 200, "name=1",true));
 		addSprite(new Sprite(this, BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_blue), 100, 100, "name=1",true));
 
@@ -106,7 +116,32 @@ public class OurView extends SurfaceView implements Runnable {
 		}
 	}
 
-
+	
+	public synchronized void drawLine(float fromX, float fromY, float toX, float toY){
+		
+		lines.add(new Line(fromX, fromY, toX, toY));
+	}
+	
+	public synchronized void drawLine(String mo1, String mo2){
+		int x1 = 0;
+		int y1 = 0;
+		int x2 = 0;
+		int y2 = 0;
+		
+		for (Sprite s : sprites){
+			if (s.getName().equalsIgnoreCase(mo1)){
+				x1 = s.getCenterX();
+				y2 = s.getCenterY();
+			}
+			else if (s.getName().equalsIgnoreCase(mo2)){
+				x2 = s.getCenterX();
+				y2 = s.getCenterY();
+			}
+		}
+		
+		lines.add(new Line(x1,y1,x2,y2));
+	}
+	
 
 	public synchronized void draw(Canvas c){
 		c.drawARGB(255, 100, 100, 100);
@@ -152,8 +187,6 @@ public class OurView extends SurfaceView implements Runnable {
 		//			}
 		//		}
 
-
-	
 		if (checkCollision()){
 
 			if (lastColl1 != coll1 && lastColl2 != coll2){
@@ -174,7 +207,16 @@ public class OurView extends SurfaceView implements Runnable {
 		}
 
 
-
+		Paint p1 = new Paint();
+		p1.setColor(Color.BLACK);
+		p1.setStyle(Paint.Style.STROKE); 
+		p1.setStrokeWidth(5);
+		
+		for (Line l : lines){
+			c.drawLine(l.getFromX(), l.getFromY(), l.getToX(), l.getToY(), p1);
+		}
+		
+		
 		for (Sprite spr : sprites){
 			spr.onDraw(c);
 		}
@@ -259,6 +301,8 @@ public class OurView extends SurfaceView implements Runnable {
 		int y = (int)event.getY();
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
+			
+
 
 
 			if (System.currentTimeMillis() - lastClick > 500) {
@@ -266,6 +310,8 @@ public class OurView extends SurfaceView implements Runnable {
 				//      						synchronized (getHolder()) {
 
 				longpressTimerIsActive = true;
+				
+
 
 				longPressTimer.schedule(new TimerTask(){
 					@Override
@@ -288,8 +334,16 @@ public class OurView extends SurfaceView implements Runnable {
 
 					Sprite s = getClickedSprite(event.getX(), event.getY());
 
-					if (s != null)
-						removeSprite(s);
+					if (s != null){
+						longpressTimerIsActive = true;
+						
+							
+						
+//						longpressListener.onLongpress(OurView.this, (int) event.getY(), (int) event.getY());						
+						//						removeSprite(s);	
+					}
+
+
 
 				}
 			}
@@ -469,5 +523,26 @@ public class OurView extends SurfaceView implements Runnable {
 		t.start();
 
 	}
-
+	
+	private class Line {
+		float fromX, fromY, toX, toY;
+		public Line(float fromX, float fromY, float toX, float toY){
+			this.fromX = fromX;
+			this.fromY = fromY;
+			this.toX = toX;
+			this.toY = toY;
+		}
+		public float getFromX() {
+			return fromX;
+		}
+		public float getFromY() {
+			return fromY;
+		}
+		public float getToX() {
+			return toX;
+		}
+		public float getToY() {
+			return toY;
+		}		
+	}
 }

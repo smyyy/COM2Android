@@ -21,8 +21,11 @@ public class Sprite {
 	
 	Random rand = new Random();
 
-	int xSpeed = rand.nextInt(5-1)+1;
-	int ySpeed = rand.nextInt(5-1)+1;
+//	int xSpeed = rand.nextInt(5-1)+1;
+//	int ySpeed = rand.nextInt(5-1)+1;
+	
+	int xSpeed = 0;
+	int ySpeed = 0;
 	
 	boolean isChild;
 
@@ -58,6 +61,18 @@ public class Sprite {
 		this.xCorner = (int)xCenter - (picHeight/2);
 		this.yCorner = (int)yCenter - (picWidth/2);
 		//	invalidate();
+	}
+	
+	public String getName(){
+		return name;
+	}
+	
+	public int getCenterX(){
+		return xCorner + (picWidth/2);
+	}
+	
+	public int getCenterY(){
+		return yCorner + (picHeight/2);
 	}
 
 	private void updateSpeed(Canvas c){

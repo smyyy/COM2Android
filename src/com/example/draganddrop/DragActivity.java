@@ -10,6 +10,7 @@ import com.example.com2android.R;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.text.Layout;
 import android.view.ContextMenu;
@@ -19,6 +20,7 @@ import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class DragActivity extends Activity{
@@ -29,6 +31,12 @@ public class DragActivity extends Activity{
 	OurView ov;
 	private List<Sprite> sprites = new ArrayList<Sprite>();
 	Bitmap blob;
+	
+	Sprite mo1 = null;
+	Sprite mo2 = null;
+	
+	TextView mo1TV;
+	TextView mo2TV;
 
 
 	@Override
@@ -49,6 +57,9 @@ public class DragActivity extends Activity{
 
 		blob = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
 		//		v.resume();
+		
+		mo1TV = (TextView) findViewById(R.id.moTextField1);
+		mo2TV = (TextView) findViewById(R.id.moTextField2);
 
 		ov.setOnLongpressListener(new OurView.OnLongpressListener() {
 
@@ -107,10 +118,23 @@ public class DragActivity extends Activity{
 
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 
+		switch (item.getItemId()){
+		case R.id.menu1:
+			makeConnection();
+			break;
+		default:
+					
 		Toast.makeText(DragActivity.this,
 				item.toString(),
 				Toast.LENGTH_LONG).show();
+		}
+
 		return true;
+	}
+	
+	private void makeConnection(){
+		Toast.makeText(DragActivity.this, "To where?",Toast.LENGTH_LONG).show();
+		
 	}
 
 
@@ -135,6 +159,27 @@ public class DragActivity extends Activity{
 		int whereY = rand.nextInt(500-1)+1;
 		ov.addSprite(new Sprite(ov, blob, whereX,whereY,"name=1"));		
 	}
+	
+	
+	
+	public synchronized void connectMo(View v){
+		float x1 = 1;
+		float y1 = 1;
+		float x2 = 300;
+		float y2 = 100;
+		
+		mo1TV.setText("added");
+		
+		
+		
+		
+		if (mo1TV.getText() != "" && mo2TV.getText() != ""){
+			ov.drawLine(mo1TV.getText().toString(), mo2TV.getText().toString());
+//			ov.drawLine( x1, y1, x2, y2);
+		}
+
+	}
+	
 	
 	public synchronized void addNewMoChild(View v){
 		//		Sprite s = new Sprite(ov, blob, 100);
