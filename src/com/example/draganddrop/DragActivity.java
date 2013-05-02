@@ -8,16 +8,20 @@ import java.util.Random;
 import com.example.com2android.R;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Layout;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -43,9 +47,6 @@ public class DragActivity extends Activity{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//		v = new OurView(this);
-		//		v.setOnTouchListener(this);
-		//		ball = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
 
 		setContentView(R.layout.activity_drag);
 
@@ -54,7 +55,6 @@ public class DragActivity extends Activity{
 		LinearLayout ll = (LinearLayout) findViewById(R.id.view1);
 
 		ll.addView(ov);
-		//		ov = (OurView) findViewById(R.id.ourView1);
 
 		blob = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
 		//		v.resume();
@@ -70,7 +70,7 @@ public class DragActivity extends Activity{
 
 						if (ov.longpressTimerIsActive){
 							Toast.makeText(getApplicationContext(), "LONG PRESSED at: x:" + xCord + " y:" + yCord , Toast.LENGTH_SHORT).show();
-							//						showPopupMenu(ov, xCord, yCord);
+
 							registerForContextMenu(ov);
 							openContextMenu(ov);
 							ov.longpressTimerIsActive = false;
@@ -86,25 +86,6 @@ public class DragActivity extends Activity{
 
 	}
 
-	//	private void showPopupMenu(View v, int x, int y){
-	//		   PopupMenu popupMenu = new PopupMenu(this, v);
-	//		      popupMenu.getMenuInflater().inflate(R.menu.popupmenu, popupMenu.getMenu());
-	//		    
-	//		      popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-	//		   
-	//		@Override
-	//		public boolean onMenuItemClick(MenuItem item) {
-	//			// TODO Auto-generated method stub
-	//		    Toast.makeText(MainActivity.this,
-	//				      item.toString(),
-	//				      Toast.LENGTH_LONG).show();
-	//			return false;
-	//		}
-	//		  });
-	//		    
-	//		      popupMenu.show();
-	//		  }
-	//	
 
 	/** This will be invoked when an item in the listview is long pressed */
 	@Override
@@ -160,13 +141,42 @@ public class DragActivity extends Activity{
 		super.onResume();
 		//		v.resume();
 	}
-
+	
 	public synchronized void addNewMo(View v){
 		//		Sprite s = new Sprite(ov, blob, 100);
+		addMO(blob);
+
+	}
+		
+	public synchronized void addNewMoChild(View v){
+		addMO(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_blue));
+	}
+	
+	
+	
+	
+	private void addMO(final Bitmap blobben){
 		Random rand = new Random();
-		int whereX = rand.nextInt(500-1)+1;
-		int whereY = rand.nextInt(500-1)+1;
-		ov.addSprite(new Sprite(ov, blob, whereX,whereY,"name=1"));		
+		final int whereX = rand.nextInt(500-1)+1;
+		final int whereY = rand.nextInt(500-1)+1;
+		
+		final EditText input = new EditText(DragActivity.this);
+
+		new AlertDialog.Builder(DragActivity.this)
+		    .setTitle("Update Status")
+		    .setMessage("Name?")
+		    .setView(input)
+		    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+		         public void onClick(DialogInterface dialog, int whichButton) {
+		             ov.addSprite(new Sprite(ov, blobben, whereX,whereY,input.getText().toString()));	           
+		             // deal with the editable
+		         }
+		    })
+		    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		         public void onClick(DialogInterface dialog, int whichButton) {
+		                // Do nothing.
+		         }
+		    }).show();
 	}
 	
 	
@@ -177,44 +187,5 @@ public class DragActivity extends Activity{
 		}
 
 	}
-	
-	
-	public synchronized void addNewMoChild(View v){
-		//		Sprite s = new Sprite(ov, blob, 100);
-		Random rand = new Random();
-		int whereX = rand.nextInt(500-1)+1;
-		int whereY = rand.nextInt(500-1)+1;
-		ov.addSprite(new Sprite(ov, BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_blue), whereX,whereY,"name=1",true));		
-	}
-
-	//
-	//	@Override
-	//	public boolean onTouch(View v, MotionEvent me) {
-	//		// TODO Auto-generated method stub
-	//
-	//
-	//		try {
-	//			Thread.sleep(50);
-	//		} catch (InterruptedException e) {
-	//			// TODO Auto-generated catch block
-	//			e.printStackTrace();
-	//		}
-	//
-	//		switch(me.getAction()){
-	//		case MotionEvent.ACTION_DOWN:
-	//			x = me.getX();
-	//			y = me.getY();
-	//			break;
-	//		case MotionEvent.ACTION_UP:
-	//			break;
-	//		case MotionEvent.ACTION_MOVE:
-	//			x = me.getX();
-	//			y = me.getY();
-	//			break;
-	//		}
-	//
-	//
-	//		return true;
-	//	}
 
 }

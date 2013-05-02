@@ -3,8 +3,8 @@
       <item android:id="@+id/menu1"
           android:title="Make connection"/>
       <item android:id="@+id/menu2"
-          android:title="Popup menu item 2"/>
+          android:title="Lägg till MO1 (from)"/>
       <item android:id="@+id/menu3"
-          android:title="Popup menu item 3"/>
+          android:title="Lägg till MO2 (To)"/>
   </group>
 </menu>

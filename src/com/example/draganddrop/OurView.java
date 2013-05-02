@@ -54,13 +54,6 @@ public class OurView extends SurfaceView implements Runnable {
 	EditText mo1TV;
 	EditText mo2TV;
 
-	//	final Handler _handler = new Handler(); 
-	//	Runnable _longPressed = new Runnable() { 
-	//	    public void run() {
-	//	        System.out.println("LOOOONG PRESS!!");
-	//	    }   
-	//	};
-
 
 	public OurView(Context context) {
 		super(context);
@@ -94,10 +87,6 @@ public class OurView extends SurfaceView implements Runnable {
 		addSprite(new Sprite(this, BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_blue), 200, 200, "name=1",true));
 		addSprite(new Sprite(this, BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_blue), 100, 100, "name=1",true));
 
-
-		//		Canvas c = holder.lockCanvas();
-		//		draw(c);
-		//		holder.unlockCanvasAndPost(c);
 	}
 
 	@Override
@@ -151,20 +140,7 @@ public class OurView extends SurfaceView implements Runnable {
 		Rect r2 = new Rect(50, 50, getWidth()-50, getHeight()-50);
 		c.drawRect(r, mPaint);
 		c.drawRect(r2, mPaint2);
-		//			c.drawBitmap(ball, x - (ball.getWidth())/2, y - (ball.getHeight())/2, null);
-		//			c.drawBitmap(ball, 300, 300, null);
-		//		sprite.onDraw(c);
-		//		sprite2.onDraw(c);
-		//		
-		//		if (spriteLoaded){
-		//			try {
-		//				Thread.sleep(50);
-		//				spriteLoaded = false;
-		//			} catch (InterruptedException e) {
-		//				// TODO Auto-generated catch block
-		//				e.printStackTrace();
-		//			}
-		//		}
+
 
 		if (checkCollision()){
 
@@ -281,8 +257,6 @@ public class OurView extends SurfaceView implements Runnable {
 
 			if (System.currentTimeMillis() - lastClick > 500) {
 				lastClick = System.currentTimeMillis();
-				//      						synchronized (getHolder()) {
-
 				longpressTimerIsActive = true;
 
 
@@ -295,11 +269,7 @@ public class OurView extends SurfaceView implements Runnable {
 
 				}, LONG_PRESS_TIME);
 				break;
-				//      		
-				//      									break;
-				//      								}
-				//      							}
-				//      						}
+
 			}
 
 			else{//dubbelklick
@@ -338,139 +308,6 @@ public class OurView extends SurfaceView implements Runnable {
 
 		return true;
 	}
-
-
-	//	@Override
-	//	public boolean onTouchEvent(MotionEvent event) {
-	//
-	//		switch(event.getAction()){
-	//		//		case MotionEvent.ACTION_DOWN:
-	//		//			
-	//		//			if (System.currentTimeMillis() - lastClick > 500) {
-	//		//				lastClick = System.currentTimeMillis();
-	//		//				synchronized (getHolder()) {
-	//		//					for (int i = sprites.size() - 1; i >= 0; i--) {
-	//		//						final Sprite clickedSprite = sprites.get(i);
-	//		//						if (clickedSprite.isCollition(event.getX(), event.getY())) {
-	//		//					
-	//		//							System.out.println("ACTION DOWN");
-	//		//							clickedSprite.setSpeed();
-	//		//
-	//		//							final int xCord = (int) event.getX();
-	//		//							final int yCord = (int) event.getY();
-	//		//
-	//		//							longpressTimerIsActive = true;
-	//		//							
-	//		////							longPressTimer.schedule(new TimerTask(){
-	//		////								@Override
-	//		////								public void run() {
-	//		////									
-	//		////									longpressListener.onLongpress(OurView.this, xCord, yCord);
-	//		////								}
-	//		////
-	//		////							}, LONG_PRESS_TIME);
-	//		//
-	//		//							break;
-	//		//						}
-	//		//					}
-	//		//				}
-	//		//			}
-	//		//			else{
-	//		//				lastClick = System.currentTimeMillis();
-	//		//				synchronized (getHolder()) {
-	//		//					for (int i = sprites.size() - 1; i >= 0; i--) {
-	//		//						Sprite clickedSprite = sprites.get(i);
-	//		//						if (clickedSprite.isCollition(event.getX(), event.getY())) {
-	//		//							//							sprites.remove(sprite);
-	//		//							System.out.println("ACTION DELETE");
-	//		//							removeSprite(clickedSprite);
-	//		//
-	//		//							break;
-	//		//						}
-	//		//					}
-	//		//				}
-	//		//			}
-	//		//
-	//		//
-	//		//			break;
-	//		
-	//		case MotionEvent.ACTION_DOWN:
-	//			Sprite s = getClickedSprite(event.getX(),event.getY());
-	//			
-	//			removeSprite(s);
-	//			
-	//			break;
-	//		case MotionEvent.ACTION_UP:
-	//			//			if (System.currentTimeMillis() - lastClick > 500) {
-	//			//				lastClick = System.currentTimeMillis();
-	//			//				synchronized (getHolder()) {
-	//			//					for (int i = sprites.size() - 1; i >= 0; i--) {
-	//			//						Sprite clickedSprite = sprites.get(i);
-	//			//						if (clickedSprite.isCollition(event.getX(), event.getY())) {
-	//			//							//							sprites.remove(sprite);
-	//			System.out.println("ACTION UP: x:" + (int)event.getX() + " y:" + (int)event.getY());
-	//			if(longpressTimerIsActive){
-	//				//				longPressTimer.cancel();
-	//			}
-	//			longpressTimerIsActive = false;
-	//
-	//			//							clickedSprite.setSpeed();
-	//			//							break;
-	//			//						}
-	//			//					}
-	//			//				}
-	//			//			}
-	//			break;
-	//
-	//		case MotionEvent.ACTION_MOVE:
-	//
-	//
-	//
-	//			//			lastClick = System.currentTimeMillis();
-	//			//			synchronized (getHolder()) {
-	//			Sprite movingSprite = null;
-	//			for (Sprite spr : sprites){
-	//				if (spr.isCollition(event.getX(), event.getY())){
-	//					System.out.println("ACTION MOVE: x:" + (int)event.getX() + " y:" + (int)event.getY());
-	//
-	//
-	//
-	//				spr.paintComponent((int) event.getX(), (int) event.getY());
-	//
-	//					break;
-	//				}
-	//			}
-	//
-	//			
-	//			//				
-	//			//				for (int i = sprites.size() - 1; i >= 0; i--) {
-	//			//					Sprite clickedSprite = sprites.get(i);
-	//			//					if (clickedSprite.isCollition(event.getX(), event.getY())) {
-	//			//
-	//			//						int moveX = (int) event.getX();
-	//			//						int moveY = (int) event.getY();
-	//			//
-	//			//
-	//			//						
-	//			//						Canvas c = holder.lockCanvas();
-	//			//						clickedSprite.moveSpite(moveX, moveY);
-	//			//						draw(c);
-	//			//						holder.unlockCanvasAndPost(c);
-	//			//
-	//			//						break;
-	//			//					}
-	//			//				}
-	//			//			}
-	//
-	//			break;
-	//
-	//
-	//		}
-	//
-	//
-	//
-	//		return true;
-	//	}
 
 
 	public void pause(){
