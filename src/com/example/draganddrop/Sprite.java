@@ -136,5 +136,9 @@ public class Sprite {
 		this.xCorner = x;
 		this.yCorner = y;
 	}
+	
+	public String toString(){
+		return name;
+	}
 
 }

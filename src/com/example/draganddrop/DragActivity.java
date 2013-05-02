@@ -21,8 +21,10 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +44,9 @@ public class DragActivity extends Activity{
 	
 	TextView mo1TV;
 	TextView mo2TV;
+	
+	ArrayList<Sprite> appointment;
+    ArrayAdapter<Sprite> aa;
 
 
 	@Override
@@ -62,6 +67,14 @@ public class DragActivity extends Activity{
 		mo1TV = (TextView) findViewById(R.id.moTextField1);
 		mo2TV = (TextView) findViewById(R.id.moTextField2);
 
+		ListView listView = (ListView)findViewById(R.id.listView1);
+		
+		appointment = new ArrayList<Sprite>();
+        aa = new ArrayAdapter<Sprite>(this, android.R.layout.simple_list_item_1,  
+                appointment);
+        listView.setAdapter(aa);
+		
+		
 		ov.setOnLongpressListener(new OurView.OnLongpressListener() {
 
 			public void onLongpress(final OurView view, final int xCord, final int yCord, final Sprite sprite) {
@@ -168,7 +181,9 @@ public class DragActivity extends Activity{
 		    .setView(input)
 		    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 		         public void onClick(DialogInterface dialog, int whichButton) {
-		             ov.addSprite(new Sprite(ov, blobben, whereX,whereY,input.getText().toString()));	           
+		        	 Sprite newSprite = new Sprite(ov, blobben, whereX,whereY,input.getText().toString());
+		        	 aa.add(newSprite);
+		             ov.addSprite(newSprite);	           
 		             // deal with the editable
 		         }
 		    })

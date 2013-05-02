@@ -81,11 +81,11 @@ public class OurView extends SurfaceView implements Runnable {
 
 		sprite = new Sprite(this, blob, 100, 100, "name=1");
 		sprites.add(sprite);
-		sprite2 = new Sprite(this, blob, 200, 200, "name=1");
+		sprite2 = new Sprite(this, blob, 200, 200, "name=2");
 		sprites.add(sprite2);
 
-		addSprite(new Sprite(this, BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_blue), 200, 200, "name=1",true));
-		addSprite(new Sprite(this, BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_blue), 100, 100, "name=1",true));
+		addSprite(new Sprite(this, BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_blue), 300, 300, "name=3",true));
+		addSprite(new Sprite(this, BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_blue), 400, 400, "name=4",true));
 
 	}
 
