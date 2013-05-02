@@ -34,6 +34,7 @@ public class DragActivity extends Activity{
 	
 	Sprite mo1 = null;
 	Sprite mo2 = null;
+	Sprite clickedSprite = null;
 	
 	TextView mo1TV;
 	TextView mo2TV;
@@ -63,7 +64,7 @@ public class DragActivity extends Activity{
 
 		ov.setOnLongpressListener(new OurView.OnLongpressListener() {
 
-			public void onLongpress(final OurView view, final int xCord, final int yCord) {
+			public void onLongpress(final OurView view, final int xCord, final int yCord, final Sprite sprite) {
 				runOnUiThread(new Runnable() {
 					public void run() {
 
@@ -73,7 +74,7 @@ public class DragActivity extends Activity{
 							registerForContextMenu(ov);
 							openContextMenu(ov);
 							ov.longpressTimerIsActive = false;
-
+							clickedSprite = sprite;
 						}
 
 
@@ -122,6 +123,14 @@ public class DragActivity extends Activity{
 		case R.id.menu1:
 			makeConnection();
 			break;
+		case R.id.menu2:
+			mo1TV.setText(clickedSprite.getName());
+			mo1 = clickedSprite;
+			break;
+		case R.id.menu3:
+			mo2TV.setText(clickedSprite.getName());
+			mo2 = clickedSprite;
+			break;
 		default:
 					
 		Toast.makeText(DragActivity.this,
@@ -163,19 +172,8 @@ public class DragActivity extends Activity{
 	
 	
 	public synchronized void connectMo(View v){
-		float x1 = 1;
-		float y1 = 1;
-		float x2 = 300;
-		float y2 = 100;
-		
-		mo1TV.setText("added");
-		
-		
-		
-		
 		if (mo1TV.getText() != "" && mo2TV.getText() != ""){
-			ov.drawLine(mo1TV.getText().toString(), mo2TV.getText().toString());
-//			ov.drawLine( x1, y1, x2, y2);
+			ov.drawLine(mo1, mo2);
 		}
 
 	}

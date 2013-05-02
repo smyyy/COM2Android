@@ -50,7 +50,7 @@ public class OurView extends SurfaceView implements Runnable {
 	Sprite coll2;
 	Sprite lastColl1 = null;
 	Sprite lastColl2 = null;
-	
+
 	EditText mo1TV;
 	EditText mo2TV;
 
@@ -85,7 +85,7 @@ public class OurView extends SurfaceView implements Runnable {
 
 		mo1TV = (EditText) findViewById(R.id.moTextField1);
 		mo2TV = (EditText) findViewById(R.id.moTextField2);
-		
+
 		sprite = new Sprite(this, blob, 100, 100, "name=1");
 		sprites.add(sprite);
 		sprite2 = new Sprite(this, blob, 200, 200, "name=1");
@@ -116,32 +116,11 @@ public class OurView extends SurfaceView implements Runnable {
 		}
 	}
 
-	
-	public synchronized void drawLine(float fromX, float fromY, float toX, float toY){
-		
-		lines.add(new Line(fromX, fromY, toX, toY));
+	public synchronized void drawLine(Sprite mo1, Sprite mo2){
+
+		lines.add(new Line(mo1,mo2));
 	}
-	
-	public synchronized void drawLine(String mo1, String mo2){
-		int x1 = 0;
-		int y1 = 0;
-		int x2 = 0;
-		int y2 = 0;
-		
-		for (Sprite s : sprites){
-			if (s.getName().equalsIgnoreCase(mo1)){
-				x1 = s.getCenterX();
-				y2 = s.getCenterY();
-			}
-			else if (s.getName().equalsIgnoreCase(mo2)){
-				x2 = s.getCenterX();
-				y2 = s.getCenterY();
-			}
-		}
-		
-		lines.add(new Line(x1,y1,x2,y2));
-	}
-	
+
 
 	public synchronized void draw(Canvas c){
 		c.drawARGB(255, 100, 100, 100);
@@ -211,16 +190,14 @@ public class OurView extends SurfaceView implements Runnable {
 		p1.setColor(Color.BLACK);
 		p1.setStyle(Paint.Style.STROKE); 
 		p1.setStrokeWidth(5);
-		
+
 		for (Line l : lines){
-			c.drawLine(l.getFromX(), l.getFromY(), l.getToX(), l.getToY(), p1);
+			c.drawLine(l.getMo1().getCenterX(), l.getMo1().getCenterY(), l.getMo2().getCenterX(), l.getMo2().getCenterY(), p1);
 		}
-		
-		
+
 		for (Sprite spr : sprites){
 			spr.onDraw(c);
 		}
-
 	}
 
 
@@ -273,7 +250,7 @@ public class OurView extends SurfaceView implements Runnable {
 
 
 	public interface OnLongpressListener {
-		public void onLongpress(OurView view, int xCord, int yCord);
+		public void onLongpress(OurView view, int xCord, int yCord, Sprite sprite);
 	}	
 
 
@@ -301,22 +278,19 @@ public class OurView extends SurfaceView implements Runnable {
 		int y = (int)event.getY();
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
-			
-
-
 
 			if (System.currentTimeMillis() - lastClick > 500) {
 				lastClick = System.currentTimeMillis();
 				//      						synchronized (getHolder()) {
 
 				longpressTimerIsActive = true;
-				
+
 
 
 				longPressTimer.schedule(new TimerTask(){
 					@Override
 					public void run() {
-						longpressListener.onLongpress(OurView.this, (int) event.getY(), (int) event.getY());
+						longpressListener.onLongpress(OurView.this, (int) event.getY(), (int) event.getY(),null);
 					}
 
 				}, LONG_PRESS_TIME);
@@ -335,16 +309,11 @@ public class OurView extends SurfaceView implements Runnable {
 					Sprite s = getClickedSprite(event.getX(), event.getY());
 
 					if (s != null){
-						longpressTimerIsActive = true;
-						
-							
-						
-//						longpressListener.onLongpress(OurView.this, (int) event.getY(), (int) event.getY());						
+						longpressTimerIsActive = true;			
+
+						longpressListener.onLongpress(OurView.this, (int) event.getY(), (int) event.getY(), s);						
 						//						removeSprite(s);	
 					}
-
-
-
 				}
 			}
 			break;	
@@ -523,26 +492,21 @@ public class OurView extends SurfaceView implements Runnable {
 		t.start();
 
 	}
-	
+
 	private class Line {
-		float fromX, fromY, toX, toY;
-		public Line(float fromX, float fromY, float toX, float toY){
-			this.fromX = fromX;
-			this.fromY = fromY;
-			this.toX = toX;
-			this.toY = toY;
+		Sprite mo1 = null;
+		Sprite mo2 = null;
+
+		public Line(Sprite mo1, Sprite mo2){
+			this.mo1 = mo1;
+			this.mo2 = mo2;
+
 		}
-		public float getFromX() {
-			return fromX;
+		public Sprite getMo1(){
+			return mo1;
 		}
-		public float getFromY() {
-			return fromY;
-		}
-		public float getToX() {
-			return toX;
-		}
-		public float getToY() {
-			return toY;
+		public Sprite getMo2(){
+			return mo2;
 		}		
 	}
 }
