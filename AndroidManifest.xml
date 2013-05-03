@@ -26,11 +26,6 @@
         <activity
             android:name="com.example.draganddrop.DragActivity"
             android:label="@string/title_activity_main" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".LoginActivity"
@@ -40,6 +35,15 @@
             android:name=".NetconfActivity"
             android:label="@string/app_name" >
         </activity>
-    </application>
+        
+                <activity
+            android:name="se.ericsson.com2android.MainNavigationActivity"
+            android:label="@string/title_activity_main" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
 </manifest>

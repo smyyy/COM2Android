@@ -176,7 +176,6 @@ public class DragActivity extends Activity{
 		final EditText input = new EditText(DragActivity.this);
 
 		new AlertDialog.Builder(DragActivity.this)
-		    .setTitle("Update Status")
 		    .setMessage("Name?")
 		    .setView(input)
 		    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
