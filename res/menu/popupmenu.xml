@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+  <group android:id="@+id/group_popupmenu">
+      <item android:id="@+id/menu1"
+          android:title="Make connection"/>
+      <item android:id="@+id/menu2"
+          android:title="Lägg till MO1 (from)"/>
+      <item android:id="@+id/menu3"
+          android:title="Lägg till MO2 (To)"/>
+  </group>
+</menu>
