@@ -22,6 +22,7 @@ public class HubFragment extends Fragment
 	{
 		View view = inflater.inflate(R.layout.fragment_hub, container, false);
 		
+		
 		return view;
 	}
 
