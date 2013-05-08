@@ -125,7 +125,7 @@ public class MainNavigationActivity extends FragmentActivity {
 		public PagerAdapter(FragmentManager manager) {
 			super(manager);
 		}
-
+ 
 		public void addFragment(Fragment fragment) {
 			fragmentList.add(fragment);
 			notifyDataSetChanged();
