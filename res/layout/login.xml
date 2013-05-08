@@ -35,9 +35,8 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_text_holo_dark"
                 android:minWidth="150dp"
-                android:textColor="#FFF" >
-
-                <requestFocus />
+                android:textColor="#FFF"
+                android:layout_weight="1" >
             </EditText>
 
             <TextView

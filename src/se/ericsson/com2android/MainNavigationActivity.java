@@ -33,9 +33,8 @@ public class MainNavigationActivity extends FragmentActivity {
 		//		setContentView(R.layout.fragment_main);
 		setContentView(R.layout.login);
 
-		Typeface tf = Typeface.createFromAsset(getAssets(),"fonts/Hashtag.ttf");
-
-		LinearLayout ll = (LinearLayout) findViewById(R.id.loginLayout);
+		Typeface tf = Typeface.createFromAsset(getAssets(),"fonts/EricssonCapitalTT.ttf");
+		Typeface tf2 = Typeface.createFromAsset(getAssets(),"fonts/Hashtag.ttf");
 
 
 		TextView tv1 = (TextView) findViewById(R.id.username_text_login);
@@ -44,17 +43,17 @@ public class MainNavigationActivity extends FragmentActivity {
 		TextView tv4 = (TextView) findViewById(R.id.nc_checkbox);
 		TextView tv5 = (TextView) findViewById(R.id.terminal_checkbox);
 
-		tv1.setTextSize(50);
-		tv2.setTextSize(50);
-		tv3.setTextSize(50);
-		tv4.setTextSize(50);
-		tv5.setTextSize(50);
+		tv1.setTextSize(20);
+		tv2.setTextSize(20);
+		tv3.setTextSize(40);
+		tv4.setTextSize(40);
+		tv5.setTextSize(40);
 
 		tv1.setTypeface(tf);
 		tv2.setTypeface(tf);
-		tv3.setTypeface(tf);
-		tv4.setTypeface(tf);
-		tv5.setTypeface(tf);
+		tv3.setTypeface(tf2);
+		tv4.setTypeface(tf2);
+		tv5.setTypeface(tf2);
 
 
 		//		Fragment tabCliFragment = new CliFragment();
