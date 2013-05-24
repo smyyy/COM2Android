@@ -20,9 +20,9 @@ public class NcFragment extends Fragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
 	{
-		View view = inflater.inflate(R.layout.fragment_nc, container, false);
+		View view = inflater.inflate(R.layout.activity_terminal_nc, container, false);
 		
 		return view;
-	}
+	} 
 
 }

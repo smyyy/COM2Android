@@ -11,25 +11,6 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_weight="2" >
-
-        <ImageView
-            android:id="@+id/comLoggo"
-            android:layout_width="300dp"
-            android:layout_height="80dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/com" />
-
-        <ImageView
-            android:id="@+id/ericssonLoggo"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/imageView4"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="30dp"
-            android:paddingRight="10dp"
-            android:src="@drawable/ericssonwhitevert" />
     </RelativeLayout>
 
     <LinearLayout
