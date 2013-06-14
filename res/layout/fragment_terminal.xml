@@ -1,0 +1,80 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_weight="2" >
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="40" >
+
+        <EditText
+            android:id="@+id/terminalView"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.80"
+            android:background="@layout/border"
+            android:maxLines="38"
+            android:scrollbars="vertical"
+            android:text="Hej!\n>"
+            android:textColor="@color/green"
+            android:inputType="none"
+            android:gravity="start" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:orientation="vertical" >
+            
+            <TextView
+                android:id="@+id/historyText"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="0.1"
+                android:text="History:"
+                android:textColor="#fff" />
+            <ListView
+                android:id="@+id/historyView"
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@layout/border"
+                android:divider="@null"
+                android:gravity="center_horizontal" >
+            </ListView>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- <EditText
+        android:id="@+id/inputText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        android:background="@layout/border"
+        android:ems="10"
+        android:hint="Inputtext here"
+        android:singleLine="true"
+        android:textCursorDrawable="@null"
+        android:textColor="@color/green" /> -->
+
+    <requestFocus />
+
+</LinearLayout>

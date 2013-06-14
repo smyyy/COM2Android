@@ -19,6 +19,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -27,20 +28,23 @@ public class MainNavigationActivity extends FragmentActivity {
 	FragmentTransaction transaction;
 	static public ViewPager viewPager;
 
+	boolean cliTab, ncTab,terminalTab;
+	
+	Fragment tabCliFragment,tabNcFragment, tabHubFragment ;
+	PagerAdapter pageAdapter;
+
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_main);
 
-		Fragment tabCliFragment = new CliFragment();
-		Fragment tabNcFragment = new NcFragment();
-		Fragment tabHubFragment = new HubFragment();
+		cliTab = getIntent().getBooleanExtra("cli_checkbox", true);
+		ncTab = getIntent().getBooleanExtra("nc_checkbox", true);
+		terminalTab = getIntent().getBooleanExtra("terminal_checkbox", false);
 
-		PagerAdapter pageAdapter = new PagerAdapter(getSupportFragmentManager());
-		pageAdapter.addFragment(tabCliFragment);
-		pageAdapter.addFragment(tabNcFragment);
-		pageAdapter.addFragment(tabHubFragment);
+		pageAdapter = new PagerAdapter(getSupportFragmentManager());
 
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		viewPager.setAdapter(pageAdapter);
@@ -48,7 +52,6 @@ public class MainNavigationActivity extends FragmentActivity {
 		viewPager.setCurrentItem(0);
 
 		viewPager.setOnTouchListener(new View.OnTouchListener() {
-
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub
@@ -65,28 +68,42 @@ public class MainNavigationActivity extends FragmentActivity {
 					}
 				});
 
-		ActionBar ab = getActionBar();
-		ab.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		ab.setStackedBackgroundDrawable(new ColorDrawable(Color.RED));
-		ab.setDisplayShowTitleEnabled(false);
-		ab.setDisplayUseLogoEnabled(true);
-		ab.setLogo(R.drawable.ericssonwhite);
-		
-		
-		Tab tab1 = ab.newTab().setText("CLI")
-				.setTabListener(new TabListener<CliFragment>(this, "CLI", CliFragment.class));
-
-		Tab tab2 = ab.newTab().setText("NC")
-				.setTabListener(new TabListener<NcFragment>(this, "NC", NcFragment.class));
-
-		Tab tab3 = ab.newTab().setText("HUB")
-				.setTabListener(new TabListener<HubFragment>(this, "Hub", HubFragment.class));
-
-		ab.addTab(tab1);
-		ab.addTab(tab2);
-		ab.addTab(tab3);
+		generatActionBar();
 	}
 
+
+	private void generatActionBar(){
+		
+		ActionBar ab = getActionBar();
+		ab.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		ab.setDisplayShowTitleEnabled(false);
+		ab.setDisplayUseLogoEnabled(true);
+		ab.setLogo(R.drawable.ericssonwhitesmall);
+
+		if (cliTab){
+			tabCliFragment = new CliFragment();
+		
+			Tab cli = ab.newTab().setText("CLI")
+					.setTabListener(new TabListener<CliFragment>(this, "CLI", CliFragment.class));
+			ab.addTab(cli);
+			pageAdapter.addFragment(tabCliFragment);
+		}
+		
+		if (ncTab){
+			tabNcFragment = new CliFragment();
+			Tab tab2 = ab.newTab().setText("NC")
+					.setTabListener(new TabListener<CliFragment>(this, "NC", CliFragment.class));
+			ab.addTab(tab2);
+			pageAdapter.addFragment(tabNcFragment);
+		}
+		if (terminalTab){
+			tabHubFragment = new HubFragment();
+			Tab tab3 = ab.newTab().setText("HUB")
+					.setTabListener(new TabListener<HubFragment>(this, "Hub", HubFragment.class));
+			ab.addTab(tab3);
+			pageAdapter.addFragment(tabHubFragment);
+		}
+	}
 
 	public void onTabSelected(Tab tab, android.app.FragmentTransaction arg1)
 	{

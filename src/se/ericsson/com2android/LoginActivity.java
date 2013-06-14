@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -17,7 +18,8 @@ public class LoginActivity extends FragmentActivity {
 	FragmentTransaction transaction;
 	static public ViewPager viewPager;
 	
-	TextView TVusername, TVpassword, TVip, TVcli, TVnc, TVterminal;
+	TextView TVusername, TVpassword, TVip;
+	CheckBox TVcli, TVnc, TVterminal;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -48,9 +50,9 @@ public class LoginActivity extends FragmentActivity {
 		TVusername = (TextView) findViewById(R.id.username_text_login);
 		TVpassword = (TextView) findViewById(R.id.password_text_login);
 		TVip = (TextView) findViewById(R.id.ip_text_login);
-		TVcli = (TextView) findViewById(R.id.cli_checkbox);
-		TVnc = (TextView) findViewById(R.id.nc_checkbox);
-		TVterminal = (TextView) findViewById(R.id.terminal_checkbox);
+		TVcli = (CheckBox) findViewById(R.id.cli_checkbox);
+		TVnc = (CheckBox) findViewById(R.id.nc_checkbox);
+		TVterminal = (CheckBox) findViewById(R.id.terminal_checkbox);
 		
 		Button b1 = (Button) findViewById(R.id.loginBtn);
 		b1.setTypeface(tf);
@@ -75,17 +77,13 @@ public class LoginActivity extends FragmentActivity {
 	
 
 	public void startNavActivity(View v){
-		Intent terminal = new Intent(this, MainNavigationActivity.class);
-
-//		String _userName = usernameField.getText().toString();
-//		String _host = hostField.getText().toString();
-//		int _port = Integer.parseInt(portField.getText().toString());
-//		terminal.putExtra("host", _host);
-//		terminal.putExtra("port", _port);
-//		terminal.putExtra("username", _userName);
-//		terminal.putExtra("activity", activity);
-
-		startActivity(terminal);
+		Intent main = new Intent(this, MainNavigationActivity.class);
+		
+		main.putExtra("cli_checkbox", TVcli.isChecked());
+		main.putExtra("nc_checkbox", TVnc.isChecked());
+		main.putExtra("terminal_checkbox", TVterminal.isChecked());
+		
+		startActivity(main);
 	}
 
 }

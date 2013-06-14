@@ -22,6 +22,8 @@ public class NcFragment extends Fragment
 	{
 		View view = inflater.inflate(R.layout.activity_terminal_nc, container, false);
 		
+		
+		
 		return view;
 	} 
 
